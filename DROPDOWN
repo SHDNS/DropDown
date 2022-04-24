@@ -1,0 +1,66 @@
+const mySecret = process.env['totokㅇㅕ기에토큰']
+const {MessageEmbed } = require('discord.js')
+const Discord = require('discord.js')
+const { MessageMenuOption, MessageMenu } = require("discord-buttons")
+module.exports = {
+name: "menu",
+usage: "menu",
+description: "menu",
+category: "info",
+run: async (client, message, args) => {
+let option1 = new MessageMenuOption()
+        .setLabel("Vote")
+        .setValue("Option 1")
+        .setDescription("Vote")
+        .setDefault()
+        .setEmoji("🎉")
+        
+        let option2 = new MessageMenuOption()
+            .setLabel("Invite")
+            .setValue("Option 2")
+            .setDescription("Invite")
+            .setDefault()
+            .setEmoji("🔗")
+        let option3 = new MessageMenuOption()
+            .setLabel("Discord Server")
+            .setValue("Option 3")
+            .setDescription("Discord Server")
+            .setDefault()
+            .setEmoji("🔗")
+        let selection = new MessageMenu()
+            .setID("Selection")
+            .setMaxValues(1)
+            .setMinValues(1)
+            .setPlaceholder("Menu")
+            .addOption(option1)
+            .addOption(option2)
+            .addOption(option3)
+        let embed = new Discord.MessageEmbed()
+        .setColor("RANDOM").setTitle("Menu")
+
+        let menumsg = await message.channel.send(embed, selection)
+
+        function menuselection(menu) {
+            switch(menu.values[0]) {
+                case "Option 1": 
+                    menu.reply.send("Vote: coming soon", true)
+                break;
+                case "Option 2": 
+                    menu.reply.send("Invite: https://dsc.gg/rybot", true)
+                break;
+                case "Option 3": 
+                    menu.reply.send("Discord Server: https://dsc.gg/rybot-", true)
+                break;
+            }
+        }
+
+        client.on("clickMenu", (menu) => {
+            if(menu.message.id == menumsg.id) {
+                if(menu.clicker.user.id == message.author.id) menuselection(menu)
+                else menu.reply.send(":x: you are not allowed to pick something", true)
+            }
+        })
+    
+}
+}
+//coding is done
